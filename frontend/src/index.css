@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.animated-night {
+  --c1: #0a1b2e;
+  --c2: #091426;
+  --c3: #000000;
+
+  background: linear-gradient(
+    180deg,
+    var(--c1) 0%,
+    var(--c2) 50%,
+    var(--c3) 100%
+  );
+  background-size: 100% 300%;
+  background-attachment: fixed;
+  animation: gradient-y 12s ease-in-out infinite;
+  will-change: background-position;
+}
+
+@keyframes gradient-y {
+  0% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 50% 0%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-night {
+    animation: none;
+  }
+}
