@@ -15,6 +15,7 @@ class CustomUserAdmin(UserAdmin):
         ('Informações Pessoais', {'fields': ('username', 'first_name', 'last_name')}),
         ('Permissões', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Datas importantes', {'fields': ('last_login', 'date_joined')}),
+        ('Avatar', {'fields': ('photo',)}),
     )
     
     add_fieldsets = (
@@ -22,4 +23,5 @@ class CustomUserAdmin(UserAdmin):
             'classes': ('wide',),
             'fields': ('email', 'username', 'password1', 'password2'),
         }),
+        ('Avatar', {'fields': ('photo',)}),
     )

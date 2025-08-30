@@ -2,12 +2,28 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import CustomUser
 
-
-class UserSerializer(serializers.ModelSerializer):
+class BasicUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('id', 'username', 'email', 'date_joined')
         read_only_fields = ('id', 'date_joined')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    photo_url = serializers.SerializerMethodField()
+    photo = serializers.ImageField(write_only=True, required=False, allow_null=True)
+    
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'username', 'email', 'date_joined', 'photo', 'photo_url')
+        read_only_fields = ('id', 'date_joined')
+        
+    def get_photo_url(self, obj):
+        if not obj.photo:
+            return None
+        request = self.context.get('request')
+        url = obj.photo.url
+        return request.build_absolute_uri(url) if request else url
 
 
 class RegisterSerializer(serializers.ModelSerializer):
