@@ -1,16 +1,26 @@
 import { useState } from "react";
+import { isAxiosError } from "axios";
 
 import { Login } from "./Login";
 import { Register } from "./Register";
 
-export default function AuthPage() {
-  const [tab, setTab] = useState("login");
+type ApiErrorPayload = { detail?: string; message?: string };
 
-  const getErr = (err) =>
-    err?.response?.data?.detail ||
-    err?.response?.data?.message ||
-    err?.message ||
-    "Ocorreu um erro.";
+export default function AuthPage() {
+  const [tab, setTab] = useState<"login" | "register">("login");
+
+  const getErr = (err: unknown): string =>
+    isAxiosError<ApiErrorPayload>(err)
+      ? err.response?.data?.detail ??
+        err.response?.data?.message ??
+        err.message ??
+        "Ocorreu um erro."
+      : typeof err === "object" &&
+        err &&
+        "message" in err &&
+        typeof (err).message === "string"
+      ? (err as { message: string }).message
+      : "Ocorreu um erro.";
 
   const inputClass =
     "w-full rounded-xl bg-white/10 border border-white/20 px-4 py-3 text-white placeholder-white/60 " +
@@ -22,9 +32,7 @@ export default function AuthPage() {
     "w-full rounded-xl border border-white/20 text-white py-3 hover:bg-white/10 transition";
 
   return (
-    <div
-      className="min-h-screen grid place-items-center px-4"
-    >
+    <div className="min-h-screen grid place-items-center px-4">
       <div
         className="
           w-full max-w-[420px] rounded-2xl border border-white/20
@@ -40,20 +48,22 @@ export default function AuthPage() {
 
         <div className="bg-white/10 rounded-xl p-1 grid grid-cols-2 mb-6">
           <button
-            className={`py-2 rounded-lg text-sm font-medium transition ${tab === "login"
-              ? "bg-white text-black"
-              : "text-white/80 hover:text-white"
-              }`}
+            className={`py-2 rounded-lg text-sm font-medium transition ${
+              tab === "login"
+                ? "bg-white text-black"
+                : "text-white/80 hover:text-white"
+            }`}
             onClick={() => setTab("login")}
             type="button"
           >
             Entrar
           </button>
           <button
-            className={`py-2 rounded-lg text-sm font-medium transition ${tab === "register"
-              ? "bg-white text-black"
-              : "text-white/80 hover:text-white"
-              }`}
+            className={`py-2 rounded-lg text-sm font-medium transition ${
+              tab === "register"
+                ? "bg-white text-black"
+                : "text-white/80 hover:text-white"
+            }`}
             onClick={() => setTab("register")}
             type="button"
           >
@@ -61,12 +71,25 @@ export default function AuthPage() {
           </button>
         </div>
         {tab === "login" ? (
-          <Login labelClass={labelClass} inputClass={inputClass} btnPrimary={btnPrimary} getErr={getErr} />
+          <Login
+            labelClass={labelClass}
+            inputClass={inputClass}
+            btnPrimary={btnPrimary}
+            getErr={getErr}
+          />
         ) : (
-          <Register labelClass={labelClass} getErr={getErr} inputClass={inputClass} btnPrimary={btnPrimary} btnGhost={btnGhost} setTab={setTab} />
+          <Register
+            labelClass={labelClass}
+            getErr={getErr}
+            inputClass={inputClass}
+            btnPrimary={btnPrimary}
+            btnGhost={btnGhost}
+            setTab={setTab}
+          />
         )}
         <p className="text-center text-white/60 text-xs mt-6">
-          Ao continuar, você concorda com nossos Termos e Política de Privacidade.
+          Ao continuar, você concorda com nossos Termos e Política de
+          Privacidade.
         </p>
       </div>
     </div>

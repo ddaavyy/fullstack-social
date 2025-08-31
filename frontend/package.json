@@ -14,13 +14,13 @@
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
+    "@tanstack/react-query": "^5.85.6",
     "antd": "^5.27.1",
     "axios": "^1.11.0",
     "js-cookie": "^3.0.5",
     "react": "^19.1.1",
     "react-cookie": "^8.0.1",
     "react-dom": "^19.1.1",
-    "react-query": "^3.39.3",
     "react-router-dom": "^7.8.1",
     "react-toastify": "^11.0.5",
     "zustand": "^5.0.8"
@@ -31,6 +31,8 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^30.0.0",
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^24.3.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@types/react-toastify": "^4.1.0",

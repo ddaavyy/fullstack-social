@@ -9,7 +9,7 @@ import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config([
-  globalIgnores(['dist', 'build']),
+  globalIgnores(['dist', 'build', 'coverage']),
   {
     files: ['**/*.{ts,tsx,js,jsx}'],
     extends: [
@@ -19,7 +19,7 @@ export default tseslint.config([
       reactRefresh.configs.vite,
     ],
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 2023,
       sourceType: 'module',
       globals: globals.browser,
     },
@@ -30,21 +30,28 @@ export default tseslint.config([
     },
     settings: {
       'import/resolver': {
-        typescript: { project: ['./tsconfig.json'] },
+        typescript: {
+          project: ['./tsconfig.json'],
+          alwaysTryTypes: true,
+        },
         node: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
       },
     },
     rules: {
       'no-empty': ['error', { allowEmptyCatch: true }],
+
+      'import/no-unresolved': 'error',
       'import/no-duplicates': 'error',
       'import/newline-after-import': 'error',
+
       'simple-import-sort/imports': ['error', {
         groups: [
-          ['^\\u0000'],
-          ['^node:'],
-          ['^react', '^@?\\w'],
-          ['^@/', '^src/', '^[^.]'],
-          ['^\\./(?=.*/)', '^\\.(?!/?$)', '^\\./?$'],
+          ['^\\u0000'],  
+          ['^node:'], 
+          ['^react$', '^@?\\w'], 
+          ['^@/'],
+          ['^\\.\\.(?!/?$)', '^\\.\\./?$'], 
+          ['^\\./(?=.*/)', '^\\.(?!/?$)', '^\\./?$'], 
           ['^.+\\.s?css$'],
         ],
       }],

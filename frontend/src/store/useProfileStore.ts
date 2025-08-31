@@ -1,6 +1,19 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-const useProfileStore = create((set) => ({
+import type { Profile } from "@/types/profile";
+
+type ProfileState = {
+  profile: Profile | null;
+};
+
+type ProfileActions = {
+  setProfile: (profile: Profile) => void;
+  clearProfile: () => void;
+};
+
+export type ProfileStore = ProfileState & ProfileActions;
+
+const useProfileStore = create<ProfileStore>((set) => ({
   profile: null,
   setProfile: (profile) => set({ profile }),
   clearProfile: () => set({ profile: null }),
