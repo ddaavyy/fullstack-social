@@ -6,6 +6,7 @@ import {
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import { useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import type React from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -25,6 +26,8 @@ export default function Header() {
   const [open, setOpen] = useState<boolean>(false);
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const popRef = useRef<HTMLDivElement | null>(null);
+
+  const qc = useQueryClient();
 
   const profile = useProfile() as Profile | null;
   const clearProfile = useClearProfile();
@@ -50,6 +53,7 @@ export default function Header() {
         refresh_token: Cookies.get("refresh_token"),
       });
     } catch {}
+    qc.removeQueries({ queryKey: ["profile"] });
     clearAuthCookies();
     clearProfile();
     navigate("/login");

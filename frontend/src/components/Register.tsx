@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -20,6 +20,7 @@ export const Register: React.FC<RegisterProps> = ({
   setTab,
 }) => {
   const navigate = useNavigate();
+  const qc = useQueryClient();
 
   const { mutateAsync: doRegister, isPending: loadingRegister } = useMutation<
     RegisterResponse,
@@ -34,6 +35,7 @@ export const Register: React.FC<RegisterProps> = ({
         return;
       }
       Cookies.set("access_token", token, { expires: 1, sameSite: "lax" });
+      qc.removeQueries({ queryKey: ["profile"] });
       navigate("/dashboard");
     },
     onError: (error) => toast.error("Erro ao registrar: " + getErr(error)),
