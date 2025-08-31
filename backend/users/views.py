@@ -42,8 +42,7 @@ def logout_view(request):
     try:
         refresh_token = request.data.get('refresh_token')
         if refresh_token:
-            token = RefreshToken(refresh_token)
-            token.blacklist()
+            RefreshToken(refresh_token).blacklist()
         return Response({'message': 'Logout realizado com sucesso'})
     except Exception:
         return Response({'message': 'Logout realizado com sucesso'})

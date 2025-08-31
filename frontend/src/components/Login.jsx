@@ -15,6 +15,7 @@ export const Login = ({ labelClass, inputClass, btnPrimary, getErr }) => {
             const token = data?.token ?? data?.access ?? data?.access_token;
             if (!token) { toast.error("Token não encontrado na resposta."); return; }
             Cookies.set("access_token", token, { expires: 1, sameSite: "Lax" });
+            Cookies.set('refresh_token', data.refresh, { sameSite: 'lax' });
             navigate("/dashboard");
         },
         onError: (error) => toast.error("Erro ao entrar: " + getErr(error)),

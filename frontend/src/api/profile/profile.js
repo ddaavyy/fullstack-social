@@ -27,6 +27,7 @@ export function useProfileQuery(enabled = true) {
   return useQuery(QK.me, fetchMyProfile, {
     enabled: enabled && !!token,
     staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: true,
     initialData: cached || undefined,
     onSuccess: (data) => setProfile(data),
   });
