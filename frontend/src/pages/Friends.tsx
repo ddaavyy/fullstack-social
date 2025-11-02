@@ -5,6 +5,7 @@ import {
   PhoneOutlined,
   SearchOutlined,
   SendOutlined,
+  TeamOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, Card, Empty, Input, Typography } from "antd";
@@ -140,6 +141,10 @@ export default function Friends() {
             <Typography.Title level={4} style={{ color: "white", margin: 0 }}>
               Conversas
             </Typography.Title>
+            <button className="flex items-center gap-1 overflow-x-auto scrollbar-none rounded-full border px-3 py-1.5 text-sm transition border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 hover:text-slate-100">
+              <TeamOutlined />
+              Adicionar Amigo
+            </button>
           </div>
 
           <Input
